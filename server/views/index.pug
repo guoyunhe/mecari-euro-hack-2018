@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form(action="/", method="post", enctype="multipart/form-data")
+    input(type="file", name="photo")
+    button(type="submit") Upload
+  if typeof result === "boolean"
+    p
+      if result
+        strong Photo is original!
+      else
+        strong Photo is probably downloaded or edited!
+    if size
+      p Width: #{size.width}
+      p Height: #{size.height}
+    pre #{JSON.stringify(data, null, 2)}
