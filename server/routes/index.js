@@ -1,8 +1,12 @@
+var http = require('http');
+var fs = require('fs');
+var path = require('path');
 var express = require("express");
 var router = express.Router();
 var multer = require("multer");
 var upload = multer({ dest: "uploads/" });
 var ExifImage = require("exif").ExifImage;
+var request = require('request');
 
 /**
  * Default: converted: false, downloaded: false, modified: false
@@ -18,10 +22,12 @@ router.post("/", upload.single("photo"), function (req, res, next) {
     modified: false
   };
 
+  // 1. Metadata detection
   try {
     new ExifImage({ image: req.file.path }, function (error, exifData) {
       if (error) {
-        console.log("Error: " + error.message);
+        // No metadata found
+        result.converted = true;
       } else {
         var data = exifData;
 
@@ -30,13 +36,36 @@ router.post("/", upload.single("photo"), function (req, res, next) {
         } else {
           result.converted = true;
         }
-
-        // TODO: jpeg processing and machine learning
-        res.send(result);
       }
+
+      // 2. Reverse image search
+      var formData = { photo: fs.createReadStream(req.file.path) };
+      // A simple image storage so that the image is readable by Google Search
+      request.post({ url: 'https://guoyunhe.me/demo/mecari/', formData: formData }, function (err, httpResponse, body) {
+        if (err) {
+          return console.error('Photo upload failed:', err);
+        }
+        var externalURL = 'https://guoyunhe.me/demo/mecari/' + req.file.filename;
+
+        request.post({
+          url: 'http://localhost:5000/search',
+          body: {
+            image_url: externalURL
+          },
+          json: true
+        }, function (err, httpResponse, body) {
+          if (err) {
+            return console.error('Image reverse search failed:', err);
+          }
+
+          result.downloaded = body.resized_images;
+          // TODO: jpeg processing and machine learning
+          res.send(result);
+        });
+      });
     });
   } catch (error) {
-    console.log("Error: " + error.message);
+    console.error("Metadata detection failed 2:" + error.message);
   }
 });
 
