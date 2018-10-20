@@ -1,0 +1,3 @@
+[submodule "mrisa"]
+	path = mrisa
+	url = git@github.com:vivithemage/mrisa.git
