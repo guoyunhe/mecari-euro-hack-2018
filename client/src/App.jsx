@@ -15,6 +15,22 @@ class App extends Component {
     }
   }
 
+  uploadImage(file) {
+    var data = new FormData()
+    data.append('photo', file)
+
+    fetch('http://localhost:3000/', {
+      method: 'POST',
+      body: data
+    }).then(res => {
+      return res.json();
+    }).then(data => {
+      let images = this.state.images;
+      images.push(data);
+      this.setState({ images });
+    })
+  }
+
   removeImage(image) {
     let images = this.state.images.filter(img => img.url !== image.url);
     this.setState({ images });
@@ -32,7 +48,7 @@ class App extends Component {
           <Create
             name={this.state.name}
             images={this.state.images}
-            addImage={() => 0}
+            uploadImage={(file) => this.uploadImage(file)}
             removeImage={(image) => this.removeImage(image)}
             onPublish={() => this.setState({ published: true })} />
         }
