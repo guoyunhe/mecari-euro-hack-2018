@@ -1,0 +1,21 @@
+.Image {
+  border: 1px solid #dddddd;
+  position: relative;
+}
+
+.Image__alert {
+  color: #ff6600;
+}
+
+.Image__verify {
+  color: #43b434;
+}
+
+.Image__delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #ff2600;
+  border: 0;
+  color: #ffffff;
+}

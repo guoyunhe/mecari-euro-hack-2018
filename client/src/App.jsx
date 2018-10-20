@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Create from './Create';
 import Viewer from './Viewer';
+import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -10,8 +11,13 @@ class App extends Component {
     this.state = {
       published: false,
       name: 'Brand new phone 😍',
-      images: []
+      images: [{ url: logo, original: false, downloaded: true, modified: true }]
     }
+  }
+
+  removeImage(image) {
+    let images = this.state.images.filter(img => img.url !== image.url);
+    this.setState({ images });
   }
 
   render() {
@@ -27,7 +33,7 @@ class App extends Component {
             name={this.state.name}
             images={this.state.images}
             addImage={() => 0}
-            removeImage={() => 0}
+            removeImage={(image) => this.removeImage(image)}
             onPublish={() => this.setState({ published: true })} />
         }
       </div>
