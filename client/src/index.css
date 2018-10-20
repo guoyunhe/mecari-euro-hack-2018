@@ -16,6 +16,10 @@ code {
 }
 
 input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
   background: #ffffff;
   color: #000000;
   border: 1px solid #999999;
@@ -24,10 +28,17 @@ input {
   border-radius: 0.3rem;
 }
 
+label {
+  font-weight: bold;
+}
+
 button {
-  background: #cccccc;
-  border: 1px solid #999999;
-  color: #000000;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  background: #7d1c8a;
+  border: 1px solid #7d1c8a;
+  color: #ffffff;
   font-size: 1rem;
   padding: 0.5rem;
   border-radius: 0.3rem;
