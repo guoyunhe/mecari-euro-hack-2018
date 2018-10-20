@@ -13,7 +13,7 @@ class Image extends Component {
           {downloaded && <span className="Image__alert">️⚠ Photo is from the internet</span>}
           {original && <span className="Image__alert">️Photo is original and real</span>}
         </div>
-        <button className="Image__delete-button" onClick={() => this.props.delete(this.props.image)}>Delete</button>
+        {this.props.delete && <button className="Image__delete-button" onClick={() => this.props.delete(this.props.image)}>Delete</button>}
       </div>
     );
   }

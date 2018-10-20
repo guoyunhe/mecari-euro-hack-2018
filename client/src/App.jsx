@@ -46,6 +46,7 @@ class App extends Component {
           :
           <Create
             name={this.state.name}
+            updateName={name => this.setState({ name })}
             images={this.state.images}
             uploadImage={(file) => this.uploadImage(file)}
             removeImage={(image) => this.removeImage(image)}
