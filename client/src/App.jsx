@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Create from './Create';
 import Viewer from './Viewer';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -11,7 +10,7 @@ class App extends Component {
     this.state = {
       published: false,
       name: 'Brand new phone 😍',
-      images: [{ url: logo, original: false, downloaded: true, modified: true }]
+      images: []
     }
   }
 
