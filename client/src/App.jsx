@@ -10,11 +10,13 @@ class App extends Component {
     this.state = {
       published: false,
       name: 'Brand new phone 😍',
-      images: []
+      images: [],
+      isProcessing: false
     }
   }
 
   uploadImage(file) {
+    this.setState({ isProcessing: true });
     var data = new FormData()
     data.append('photo', file)
 
@@ -26,7 +28,7 @@ class App extends Component {
     }).then(data => {
       let images = this.state.images;
       images.push(data);
-      this.setState({ images });
+      this.setState({ images, isProcessing: false });
     })
   }
 
@@ -50,7 +52,8 @@ class App extends Component {
             images={this.state.images}
             uploadImage={(file) => this.uploadImage(file)}
             removeImage={(image) => this.removeImage(image)}
-            onPublish={() => this.setState({ published: true })} />
+            onPublish={() => this.setState({ published: true })}
+            isProcessing={this.state.isProcessing} />
         }
       </div>
     );
