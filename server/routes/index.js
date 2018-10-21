@@ -65,7 +65,8 @@ router.post("/", upload.single("photo"), function (req, res, next) {
             if (error) return console.error(error);
 
             var quality = parseInt(output);
-            if (quality % 10) {
+            console.log('quality: ' + output);
+            if (quality % 5) {
               result.modified = true;
             }
 
