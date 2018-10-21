@@ -7,6 +7,7 @@ var multer = require("multer");
 var upload = multer({ dest: "uploads/" });
 var ExifImage = require("exif").ExifImage;
 var request = require('request');
+var im = require('imagemagick');
 
 /**
  * Default: converted: false, downloaded: false, modified: false
@@ -59,8 +60,20 @@ router.post("/", upload.single("photo"), function (req, res, next) {
           }
 
           result.downloaded = body.resized_images;
-          // TODO: jpeg processing and machine learning
-          res.send(result);
+
+          // 3. JPEG processing
+          im.identify(['-format', '%Q', req.file.path], function (error, output) {
+            if (error) return console.error(error);
+
+            var quality = parseInt(output);
+            if (quality % 10) {
+              result.modified = true;
+            }
+
+            // TODO: machine learning
+            res.send(result);
+          });
+
         });
       });
     });
