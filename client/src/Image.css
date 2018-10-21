@@ -11,6 +11,8 @@
 
 .Image__info {
   padding: 0.5rem;
+  font-size: 2rem;
+  line-height: 2em;
 }
 
 .Image__alert {
