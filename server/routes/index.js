@@ -48,18 +48,17 @@ router.post("/", upload.single("photo"), function (req, res, next) {
         }
         var externalURL = 'https://guoyunhe.me/demo/mecari/' + req.file.filename;
 
-        request.post({
-          url: 'http://localhost:5000/search',
-          body: {
-            image_url: externalURL
-          },
-          json: true
+        request.get({
+          url: 'https://www.google.com/searchbyimage?hl=en-US&image_url=' + encodeURIComponent(externalURL),
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0'
+          }
         }, function (err, httpResponse, body) {
           if (err) {
             return console.error('Image reverse search failed:', err);
           }
 
-          result.downloaded = body.resized_images;
+          result.downloaded = body.indexOf('All sizes') > 0;
 
           // 3. JPEG processing
           im.identify(['-format', '%Q', req.file.path], function (error, output) {
