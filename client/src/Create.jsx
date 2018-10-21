@@ -12,7 +12,16 @@ class Create extends Component {
           <label>Name</label>
           <input type="text" value={this.props.name} onChange={e => this.props.updateName(e.target.value)} />
           <label>Photos</label>
-          <input type="file" onChange={e => { if (e.target.files) { this.props.uploadImage(e.target.files[0]) } }} />
+          <input
+            type="file"
+            multiple
+            onChange={e => {
+              if (e.target.files) {
+                for (var i = 0; i < e.target.files.length; i++) {
+                  this.props.uploadImage(e.target.files[i])
+                }
+              }
+            }} />
         </header>
         {this.props.images.map(image => <Image key={image.url} image={image} delete={this.props.removeImage} />)}
         {this.props.isProcessing && <div className="Create__spinner-wrap">
